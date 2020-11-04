@@ -11,7 +11,7 @@
 
 ## About
 This is an escape room game I developed in my spare time.
-The game includes ten levels, each level ia a room.
+The game includes ten levels, each level is a room.
 The target - escape all rooms and finish the game.
 
 ## Menu
