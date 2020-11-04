@@ -12,10 +12,10 @@ The game includes ten levels, each level ia a room.
 The target - escape all rooms and finish the game.
 
 ## Key Features
-* *OOP
-* *javax.swing package
-* *java.wat package
+* OOP
+* javax.swing package
+* java.awt package
 
 ## Built with
-* *Java
-* *Eclipse IDE
+* Java
+* Eclipse IDE
