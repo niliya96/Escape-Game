@@ -25,6 +25,14 @@ public class Room4 extends JPanel implements Room {
     InventoryPanel inventory;
     JFrame frame;
     List<Clickable> listClickables = new ArrayList<Clickable>();
+	/**
+	 * Sounds
+	 */
+	SoundEffect se = new SoundEffect();
+    String lockS = ".//res//lock_sound.wav";
+	String openDoor = ".//res//door_open_sound.wav";
+	String sprayS = ".//res//spray_sound.wav";
+	/**
     /**
      * Booleans
      */
@@ -187,6 +195,14 @@ public class Room4 extends JPanel implements Room {
             if (ifDoorLocked) {
                 if (ifKeyPicked && ifKeyChoose && door.ifClicked(e)) {
                     ifDoorLocked = false;
+                    se.setFile(openDoor);
+                    se.play();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
                     inventory.deleteItem(key);
                 }
             }
@@ -202,7 +218,6 @@ public class Room4 extends JPanel implements Room {
                 inventory.deleteItem(spray);
                 exitRoom();
             }
-            System.out.println(e.getX() + " " + e.getY());
             message.setFont(new Font("Ariel", Font.BOLD, 25));
             if (ifMessageNoComment) {
                 message.setText(" ");
@@ -238,7 +253,8 @@ public class Room4 extends JPanel implements Room {
                 }
             }
             if (!ifCloseFrame) {
-                if (picture.ifClicked(e) && !ifDrawerCloseDown && !ifDrawerCloseUp) {
+                if (picture.ifClicked(e) && !ifDrawerCloseDown && !ifDrawerCloseUp && !ifDrawerCloseDown
+                        && !ifDrawerCloseUp) {
                     ifPictureClose = true;
                 }
                 if (ifPictureClose) {
@@ -249,9 +265,9 @@ public class Room4 extends JPanel implements Room {
                         picture.setEnd(new MousePoint(1330, 435));
                         ifPictureClose = false;
                     }
-                    //if () {
-                        
-                    //}
+                    if (e.getX() >= 490 && e.getX() <= 1105 && e.getY() >= 230 && e.getY() <= 760) {
+                        message.setText("Interesting.");
+                    }
                 }
                 if (ifTrashMove) {
                     if (e.getX() >= 530 && e.getX() <= 645 && e.getY() >= 675 && e.getY() <= 755) {
@@ -259,23 +275,42 @@ public class Room4 extends JPanel implements Room {
                         ifCloseWall = true;
                     }
                 }
-                if (trash.ifClicked(e) && !ifCloseFrame) {
+                if (trash.ifClicked(e) && !ifCloseFrame && !ifDrawerCloseDown
+                        && !ifDrawerCloseUp) {
                     ifTrashMove = !ifTrashMove;
                 }
-                if (door.ifClicked(e) && !ifCloseFrame && ifDoorLocked && !ifPictureClose && !ifDoorOpen) {
+                if (door.ifClicked(e) && !ifCloseFrame && ifDoorLocked && !ifPictureClose && !ifDoorOpen && !ifDrawerCloseDown
+                        && !ifDrawerCloseUp) {
                     message.setText("It's locked.");
+                	se.setFile(lockS);
+                    se.play();
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
                 }
                 if (ifDoorOpen) {
                     exitStatus = true;
                 }
-                if (blackboard.ifClicked(e) && !ifCloseFrame && !ifPictureClose) {
+                if (blackboard.ifClicked(e) && !ifCloseFrame && !ifPictureClose && !ifDrawerCloseDown
+                        && !ifDrawerCloseUp) {
                     if (!ifSprayChoose) {
-                        message.setText("If i had a chalk to write with...");
+                        message.setText("Nothing happens.");
                     } else {
                         if (!ifSprayDelete) {
                             ifSprayChoose = false;
                             ifSprayDelete = true;
                         }
+                        se.setFile(sprayS);
+        				se.play();
+        				try {
+        					Thread.sleep(1500);
+        				} catch (InterruptedException e1) {
+        					// TODO Auto-generated catch block
+        					e1.printStackTrace();
+        				}
                         blackboard.setImg("/blackboardCode.png");
                     }
                 }
@@ -287,11 +322,11 @@ public class Room4 extends JPanel implements Room {
                     trash.setEnd(new MousePoint(660, 800));
                 }
                 // upper drawer
-                if (e.getX() >= 1130 && e.getX() <= 1285 && e.getY() >= 595 && e.getY() <= 650) {
+                if (e.getX() >= 1130 && e.getX() <= 1285 && e.getY() >= 595 && e.getY() <= 650 && !ifDrawerCloseDown) {
                     ifDrawerCloseUp = true;
                 }
                 // down drawer
-                if (e.getX() >= 1130 && e.getX() <= 1285 && e.getY() >= 685 && e.getY() <= 740) {
+                if (e.getX() >= 1130 && e.getX() <= 1285 && e.getY() >= 685 && e.getY() <= 740 && !ifDrawerCloseUp) {
                     ifDrawerCloseDown = true;
                 }
                 /**
@@ -437,6 +472,12 @@ public class Room4 extends JPanel implements Room {
                     }
                     if (back2.ifClicked(e)) {
                         ifDrawerCloseUp = false;
+                        button1Up.setImg("/1.4.png");
+                        button2Up.setImg("/1.4.png");
+                        button3Up.setImg("/1.4.png");
+                        n1 = "1";
+                        n2 = "1";
+                        n3 = "1";
                     }
                 }
                 /**
@@ -526,6 +567,14 @@ public class Room4 extends JPanel implements Room {
                     }
                     if (back3.ifClicked(e)) {
                         ifDrawerCloseDown = false;
+                        button1Down.setImg("/tag1.png");
+                        button2Down.setImg("/tag1.png");
+                        button3Down.setImg("/tag1.png");
+                        button4Down.setImg("/tag1.png");
+                        num1 = 1;
+                        num2 = 1;
+                        num3 = 1; 
+                        num4 = 1;
                     }
                 }
             }

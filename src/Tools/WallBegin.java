@@ -54,7 +54,6 @@ public class WallBegin extends JPanel {
         add(room1, "room1");
         add(room2, "room2");
         add(room3, "room3");
-        // TODO from here
         add(room4, "room4");
         add(room5, "room5");
         add(room6, "room6");

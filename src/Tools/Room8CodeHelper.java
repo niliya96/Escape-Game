@@ -11,20 +11,14 @@ public class Room8CodeHelper {
         this.color = color;
     }
     public String getNewDirection() {
-        if (this.color.compareTo("green") == 0) {
-            return "lightBlue";
-        }
         if (this.color.compareTo("lightBlue") == 0) {
             return "pink";
         }
         if (this.color.compareTo("pink") == 0) {
-            return "purple";
-        }
-        if (this.color.compareTo("purple") == 0) {
             return "orange";
         }
         if (this.color.compareTo("orange") == 0) {
-            return "green";
+            return "lightBlue";
         }
         // avoid errors
         return "error";

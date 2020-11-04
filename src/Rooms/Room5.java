@@ -26,6 +26,15 @@ public class Room5 extends JPanel implements Room {
     JFrame frame;
     List<Clickable> listClickables = new ArrayList<Clickable>();
     /**
+     * Sounds
+     */
+    SoundEffect se = new SoundEffect();
+    String lockS = ".//res//lock_sound.wav";
+    String openDoor = ".//res//door_open_sound.wav";
+    String kettleS = ".//res//kettle_sound.wav";
+    String sprayS = ".//res//spray_sound.wav";
+    /**
+    /**
      * Booleans
      */
     // true if want to exit
@@ -74,6 +83,15 @@ public class Room5 extends JPanel implements Room {
     boolean ifCodeComputer = false;
     // true if door is open
     boolean ifDoorOpen = false;
+    // true if the spray deleted
+    boolean ifSprayDeleted = false;
+    // true if the cable deleted
+    boolean ifCableDeleted = false;
+    // true if the disk deleted
+    boolean ifDiskDeleted = false;
+    // false if the there wasn't sound of door
+    boolean flagSound = false;
+    
     /**
      * Clickables
      */
@@ -162,7 +180,7 @@ public class Room5 extends JPanel implements Room {
         listClickables.add(switch_);
         books = new ClickedObject("/books5.png", new MousePoint(210, 637), new MousePoint(370, 750));
         listClickables.add(books);
-        picture = new ClickedObject("/picture5.2.png", new MousePoint(1000, 250), new MousePoint(1270, 420));
+        picture = new ClickedObject("/pictureZebra.png", new MousePoint(1000, 250), new MousePoint(1270, 420));
         listClickables.add(picture);
         computer = new ClickedObject("/computer5.png", new MousePoint(960, 400), new MousePoint(1200, 580));
         listClickables.add(computer);
@@ -189,7 +207,6 @@ public class Room5 extends JPanel implements Room {
         @Override
         public void mouseClicked(MouseEvent e) {
             background.setImg("/room5.png");
-            System.out.println(e.getX() + " " + e.getY());
             message.setFont(new Font("Ariel", Font.BOLD, 25));
             if (menu.ifClicked(e)) {
                 ifWantToExit = true;
@@ -198,6 +215,17 @@ public class Room5 extends JPanel implements Room {
             if (!ifCloseFrame) {
                 if (door.ifClicked(e) && !ifComputerClose && !ifPictureClose && !ifDrawer1 && !ifDrawer2) {
                     if (ifCodeComputer) {
+                    	if (!flagSound) {
+                        	se.setFile(openDoor);
+                            se.play();
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e1) {
+                                // TODO Auto-generated catch block
+                                e1.printStackTrace();
+                            }
+                            flagSound = true;
+                    	}
                         ifDoorLocked = false;
                     }
                 }
@@ -225,6 +253,13 @@ public class Room5 extends JPanel implements Room {
                 door.setImg("/door1Open.png");
             }
             if (exitStatus) {
+                message.setText(" ");
+                ifCableDeleted = true;
+                ifSprayDeleted = true;
+                ifCableChoose = false;
+                ifSprayChoose = false;
+                inventory.deleteItem(cable);
+                inventory.deleteItem(spray);
                 exitRoom();
             }
             if (!ifSprayAdded) {
@@ -234,17 +269,17 @@ public class Room5 extends JPanel implements Room {
             /**
              * inventory items
              */
-            if (spray.ifChose(e)) {
+            if (spray.ifChose(e) && !ifSprayDeleted) {
                 ifSprayChoose = !ifSprayChoose;
                 ifCableChoose = false;
                 ifDiskChoose = false;
             }
-            if (cable.ifChose(e) && ifCablePicked) {
+            if (cable.ifChose(e) && ifCablePicked && !ifCableDeleted) {
                 ifCableChoose = !ifCableChoose;
                 ifSprayChoose = false;
                 ifDiskChoose = false;
             }
-            if (disk.ifChose(e) && ifDiskPicked) {
+            if (disk.ifChose(e) && ifDiskPicked && !ifDiskDeleted) {
                 ifDiskChoose = !ifDiskChoose;
                 ifCableChoose = false;
                 ifSprayChoose = false;
@@ -277,6 +312,14 @@ public class Room5 extends JPanel implements Room {
                 if (door.ifClicked(e) && !ifComputerClose && !ifPictureClose && !ifDrawer1 && !ifDrawer2 && !ifDoorOpen) {
                     if (!ifCodeComputer) {
                         message.setText("It's locked.");
+                    	se.setFile(lockS);
+                        se.play();
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
                     }
                 }
                 if (ifDoorOpen) {
@@ -285,9 +328,12 @@ public class Room5 extends JPanel implements Room {
                 if (buttonPassword.ifClicked(e) && ifDiskOnKey && !ifCodeComputer) {
                     String password = JOptionPane.showInputDialog("enter password");
                     if (password != null) {
-                        if (password.compareTo("x to unlock") == 0 || password.compareTo("17 to unlock") == 0) {
+                        if (password.compareTo("x to unlock") == 0) {
                             ifCodeComputer = true;
-                        }   
+                        }
+                        else {
+                            message.setText("Wrong code.");
+                        }
                     }
                     else {
                     }
@@ -301,6 +347,8 @@ public class Room5 extends JPanel implements Room {
                     if (ifComputerClose) {
                         computer.setImg("/computerDisk.png");
                     }
+                    ifDiskDeleted = true;
+                    ifDiskChoose = false;
                     inventory.deleteItem(disk);
                 } else {
                     if (!ifComputerClose) {
@@ -334,7 +382,17 @@ public class Room5 extends JPanel implements Room {
                     }
                 }
                 if (picture.ifClicked(e) && ifSprayChoose && ifPictureClose) {
-                    picture.setImg("/picture5.2Sloved.png");
+                    se.setFile(sprayS);
+     				se.play();
+     				try {
+     					Thread.sleep(1500);
+     				} catch (InterruptedException e1) {
+     					// TODO Auto-generated catch block
+     					e1.printStackTrace();
+     				}
+                    picture.setImg("/pictureZebraSpray.png");
+                    ifSprayChoose = false;
+                    ifSprayDeleted = true;
                     inventory.deleteItem(spray);
                 }
                 if (picture.ifClicked(e) && !computer.ifClicked(e) && !ifDrawer1 && !ifDrawer2) {
@@ -368,17 +426,27 @@ public class Room5 extends JPanel implements Room {
                         count++;
                         accum = accum + "B";
                     }
+                    String print = accum;
+                    int left = 6-accum.length(), i;
+                    for (i=1; i<=left; i++) {
+                        print = print + '*';
+                    }
+                    if (!ifCode1) {
+                        message.setText(print);                        
+                    }
                     if (code.compareTo(accum) != 0 && count == 6 && !ifCode1) {
-                        message.setText("Wrong code...I should try again.");
+                        message.setText("Wrong code.");
                         accum = "";
                         count = 0;
                     }
                     if (code.compareTo(accum) == 0) {
+                        message.setText("Correct!");
                         ifCode1 = true;
                     }
                     if (back3.ifClicked(e)) {
                         accum = "";
                         count = 0;
+                        message.setText(" ");
                         ifDrawer1 = false;
                     }
                 }
@@ -494,6 +562,12 @@ public class Room5 extends JPanel implements Room {
                     }
                     if (back5.ifClicked(e)) {
                         ifDrawer2 = false;
+                        buttonA.setImg("/1.5.png");
+                        buttonB.setImg("/1.5.png");
+                        buttonC.setImg("/1.5.png");
+                        num1 = 1;
+                        num2 = 1;
+                        num3 = 1;
                     }
                 }
                 // uper drawer
@@ -514,7 +588,16 @@ public class Room5 extends JPanel implements Room {
                 }
                 if (kettle.ifClicked(e) && !ifComputerClose && !ifPictureClose && !ifDrawer1 && !ifDrawer2) {
                     if (ifCableIn) {
-                        if (e.getX() >= 342 && e.getX() <= 349 && e.getY() >= 538 && e.getY() <= 542) {
+                    	// kettle buttom
+                        if (e.getX() >= 335 && e.getX() <= 355 && e.getY() >= 530 && e.getY() <= 550) {
+                            se.setFile(kettleS);
+                            se.play();
+                            try {
+                                Thread.sleep(2500);
+                            } catch (InterruptedException e1) {
+                                // TODO Auto-generated catch block
+                                e1.printStackTrace();
+                            }
                             window.setImg("/window5Code.png");
                         } else {
                             message.setText("It would be nice to have a cup of coffee.");
@@ -526,10 +609,20 @@ public class Room5 extends JPanel implements Room {
                 // the drawer of the cupboard
                 if (e.getX() >= 195 && e.getX() <= 435 && e.getY() >= 570 && e.getY() <= 640) {
                     message.setText("It's locked.");
+                	se.setFile(lockS);
+                    se.play();
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
                 }
                 if (ifBooksMove) {
                     if (ifCableChoose && socket.ifClicked(e)) {
                         ifCableIn = true;
+                        ifCableChoose = false;
+                        ifCableDeleted = true;
                         inventory.deleteItem(cable);
                     }
                 }

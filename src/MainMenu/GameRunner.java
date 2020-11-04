@@ -7,8 +7,12 @@ import javax.swing.JFrame;
  * Operates a Menu object.
  */
 public class GameRunner extends JFrame {
+    public static void main(String[] args) {
+        // runs the game
+        new GameRunner();
+    }
     // an inner class
-    public GameRunner() {
+    private GameRunner() {
         super();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         // calls to the menu

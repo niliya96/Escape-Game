@@ -21,8 +21,8 @@ import Tools.MousePoint;
 public class Menu extends JPanel {
     private JFrame frame;
     SoundEffect se = new SoundEffect();
-    String enter = ".//res//openDoor.wav";
-    String exit = ".//res//exit.wav";
+    String enter = ".//res//door_open_sound.wav";
+    String exit = ".//res//closed_door.wav";
     Background b;
     // here all the clickables are doors that functioning as buttons, and sign with the operation on each door.
     ClickedObject newGameDoor;
@@ -76,7 +76,7 @@ public class Menu extends JPanel {
                 se.setFile(exit);
                 se.play();
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
@@ -87,9 +87,28 @@ public class Menu extends JPanel {
             if (newGameDoor.ifClicked(e)) {
                 se.setFile(enter);
                 se.play();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
                 // new game operation
                 setVisible(false);
                 frame.setContentPane(new GamePanel(this.frame));
+                frame.getContentPane().remove(this.menu);
+            }
+            // instructions door is clicked
+            if (instructionsDoor.ifClicked(e)) {
+                se.setFile(enter);
+                se.play();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+                // instructions pannel
+                setVisible(false);
+                frame.setContentPane(new InstructionsPanel(this.frame));
                 frame.getContentPane().remove(this.menu);
             }
         }

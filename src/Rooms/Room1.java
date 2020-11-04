@@ -4,25 +4,17 @@ import Sprites.*;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import MainMenu.GamePanel;
 import MainMenu.Menu;
-import Rooms.Room8.MyMouseListener;
-import Tools.*;
+
 public class Room1 extends JPanel implements Room {
     ImageReader background;
     GamePanel game;
@@ -35,8 +27,9 @@ public class Room1 extends JPanel implements Room {
      * Sounds
      */
     SoundEffect se = new SoundEffect();
-    String lock = ".//res//lock.wav";
-    String openDoor = ".//res//openDoorRooms.wav";
+    String lockS = ".//res//lock_sound.wav";
+    String openDoor = ".//res//door_open_sound.wav";
+    String shalterS = ".//res//shalter_sound.wav";
     /**
      * Booleans
      */
@@ -217,6 +210,14 @@ public class Room1 extends JPanel implements Room {
              */
             if (!ifCloseFrame) {
                 if (switch_.ifClicked(e)) {
+                    se.setFile(shalterS);
+                    se.play();
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
                     ifLampOn = !ifLampOn;
                 }
                 if (ifLampOn) {
@@ -240,9 +241,15 @@ public class Room1 extends JPanel implements Room {
                 }
                 if (door.ifClicked(e) && !ifDoorOpen) {
                     if (ifDoorLocked && !ifdownDrawerClose && !ifUpperDrawerOpen && !ifWantToExit) {
-                        message.setText("It's locked.");
-                        se.setFile(lock);
-                        se.play();
+                        message.setText("It's locked."); 
+                    	se.setFile(lockS);
+                         se.play();
+                         try {
+                             Thread.sleep(100);
+                         } catch (InterruptedException e1) {
+                             // TODO Auto-generated catch block
+                             e1.printStackTrace();
+                         }
                     }
                 }
                 if (door.ifClicked(e) && ifDoorOpen) {
@@ -355,6 +362,14 @@ public class Room1 extends JPanel implements Room {
                 }
                 if (back2.ifClicked(e)) {
                     ifdownDrawerClose = false;
+                    button1.setImg("/up.png");
+                    button2.setImg("/up.png");
+                    button3.setImg("/up.png");
+                    button4.setImg("/up.png");
+                    direction1 = "north";
+                    direction2 = "north";
+                    direction3 = "north";
+                    direction4 = "north";
                 }
             }
             repaint();
