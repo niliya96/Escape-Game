@@ -1,6 +1,6 @@
 # Escape-Room-Game: Ten Rooms
 
-[Link to project's github repository](https://github.com/niliya96/Escape-Game)
+[Link to github repository](https://github.com/niliya96/Escape-Game)
 
 ## Author
 
