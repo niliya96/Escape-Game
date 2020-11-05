@@ -14,7 +14,11 @@ import Sprites.*;
  *The object is a kind of Panel, because we want to draw the items on the screen.
  */
 public class InventoryPanel extends JPanel {
-    // a private list of InventoryItem objects.
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	// a private list of InventoryItem objects.
     private List<InventoryItem> lst = new ArrayList<InventoryItem>();
     public void addItem(InventoryItem i) {
         this.lst.add(i);

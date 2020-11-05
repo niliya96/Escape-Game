@@ -7,12 +7,16 @@ import javax.swing.JFrame;
  * Operates a Menu object.
  */
 public class GameRunner extends JFrame {
-    public static void main(String[] args) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public static void main(String[] args) {
         // runs the game
         new GameRunner();
     }
     // an inner class
-    private GameRunner() {
+    public GameRunner() {
         super();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         // calls to the menu

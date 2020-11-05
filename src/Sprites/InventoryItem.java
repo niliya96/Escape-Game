@@ -14,7 +14,11 @@ import Tools.MousePoint;
  *ifChose - a method that returns true if the user requests to use the item.
  */
 public class InventoryItem extends JPanel {
-    protected BufferedImage img;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	protected BufferedImage img;
     protected MousePoint start;
     protected MousePoint end;
     public InventoryItem(String path, MousePoint start, MousePoint end) {

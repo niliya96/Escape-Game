@@ -17,6 +17,10 @@ import Tools.MousePoint;
  * @author Nili This is the instructions panel.
  **/
 public class InstructionsPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// true if the first screen of instructions if shown
 	boolean firstScreen = false;
 	public JFrame frame;

@@ -15,7 +15,11 @@ import MainMenu.*;
  *To show levels i used a CardLayout object.
  */
 public class WallBegin extends JPanel {
-    public CardLayout cl;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public CardLayout cl;
     public GamePanel game;
     public InventoryPanel inventory;
     public JFrame frame;

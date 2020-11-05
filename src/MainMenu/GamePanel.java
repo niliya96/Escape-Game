@@ -15,7 +15,11 @@ import javax.swing.JPanel;
  * the WallBegin object, the wall that begins the game.
  */
 public class GamePanel extends JPanel {
-    List<ClickedObject> clicked = new ArrayList<ClickedObject>();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	List<ClickedObject> clicked = new ArrayList<ClickedObject>();
     public MessagePanel panel;
     public WallBegin wb;
     public JFrame frame;

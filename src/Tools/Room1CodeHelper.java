@@ -1,13 +1,10 @@
 package Tools;
 
 import Sprites.Clickable;
-import Sprites.ClickedObject;
 
 public class Room1CodeHelper {
-    private Clickable c;
     private String direction;
     public Room1CodeHelper(Clickable button1,String direction) {
-        this.c = button1;
         this.direction = direction;
     }
     public String getNewDirection() {

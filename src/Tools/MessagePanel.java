@@ -10,7 +10,11 @@ import javax.swing.JPanel;
  *This object has a JLable, so we can get\set the text.
  */
 public class MessagePanel extends JPanel {
-    public JLabel lable;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public JLabel lable;
 
     public MessagePanel() {
         lable = new JLabel();

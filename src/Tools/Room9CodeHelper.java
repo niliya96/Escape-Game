@@ -1,14 +1,11 @@
 package Tools;
 
 import Sprites.Clickable;
-import Sprites.ClickedObject;
 
 public class Room9CodeHelper {
-	private Clickable c;
 	private String l;
 
 	public Room9CodeHelper(Clickable button1, String letter) {
-		this.c = button1;
 		this.l = letter;
 	}
 

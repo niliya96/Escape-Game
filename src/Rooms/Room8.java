@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import MainMenu.GamePanel;
 import MainMenu.Menu;
-import Rooms.Room6.MyMouseListener;
 import Sprites.Clickable;
 import Sprites.ClickedObject;
 import Sprites.InventoryItem;
@@ -21,12 +20,15 @@ import Sprites.SoundEffect;
 import Tools.ImageReader;
 import Tools.InventoryPanel;
 import Tools.MousePoint;
-import Tools.Room2CodeHelper;
 import Tools.Room8CodeHelper;
 import Tools.Room8CodeHelper2;
 import Tools.WallBegin;
 
 public class Room8 extends JPanel implements Room {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	ImageReader background;
 	GamePanel game;
 	JLabel message;
@@ -34,18 +36,17 @@ public class Room8 extends JPanel implements Room {
 	InventoryPanel inventory;
 	JFrame frame;
 	List<Clickable> listClickables = new ArrayList<Clickable>();
-    /**
-     * Sounds
-     */
-    SoundEffect se = new SoundEffect();
-    String lockS = ".//res//lock_sound.wav";
-	String openDoor = ".//res//door_open_sound.wav";
-    String shalterS = ".//res//shalter_sound.wav";
-    String keyS = ".//res//key_sound.wav";
-    String airS = ".//res//air_sound.wav";
-    /**
 	/**
-	 * Booleans
+	 * Sounds
+	 */
+	SoundEffect se = new SoundEffect();
+	String lockS = "/lock_sound.wav";
+	String openDoor = "/door_open_sound.wav";
+	String shalterS = "/shalter_sound.wav";
+	String keyS = "/key_sound.wav";
+	String airS = "/air_sound.wav";
+	/**
+	 * /** Booleans
 	 */
 	// true if want to exit
 	boolean ifWantToExit = false;
@@ -273,7 +274,7 @@ public class Room8 extends JPanel implements Room {
 			/**
 			 * inventory items
 			 */
-			if (key.ifChose(e) && ifKeyPicked && !ifKeyDeleted) {
+			if (key.ifChose(e) && ifKeyPicked && !ifKeyDeleted && !ifWantToExit) {
 				ifKeyChoose = !ifKeyChoose;
 				ifBulbChoose = false;
 				ifLanternChoose = false;
@@ -281,7 +282,7 @@ public class Room8 extends JPanel implements Room {
 				ifRemoteChoose = false;
 				ifBatteriesChoose = false;
 			}
-			if (screwdriver.ifChose(e) && ifScrewdriverPicked && !ifScrewdriverDeleted) {
+			if (screwdriver.ifChose(e) && ifScrewdriverPicked && !ifScrewdriverDeleted && !ifWantToExit) {
 				ifScrewdriverChoose = !ifScrewdriverChoose;
 				ifBulbChoose = false;
 				ifLanternChoose = false;
@@ -289,7 +290,7 @@ public class Room8 extends JPanel implements Room {
 				ifBatteriesChoose = false;
 				ifKeyChoose = false;
 			}
-			if (lantern.ifChose(e) && ifLanternPicked && !ifLanternDeleted) {
+			if (lantern.ifChose(e) && ifLanternPicked && !ifLanternDeleted && !ifWantToExit) {
 				ifLanternChoose = !ifLanternChoose;
 				ifBulbChoose = false;
 				ifRemoteChoose = false;
@@ -297,14 +298,14 @@ public class Room8 extends JPanel implements Room {
 				ifBatteriesChoose = false;
 				ifKeyChoose = false;
 			}
-			if (remote.ifChose(e) && ifRemotePicked && !ifRemoteDeleted) {
+			if (remote.ifChose(e) && ifRemotePicked && !ifRemoteDeleted && !ifWantToExit) {
 				ifRemoteChoose = !ifRemoteChoose;
 				ifBulbChoose = false;
 				ifLanternChoose = false;
 				ifScrewdriverChoose = false;
 				ifKeyChoose = false;
 			}
-			if (batteries.ifChose(e) && ifBatteriesPicked && !ifBatteriesDeleted) {
+			if (batteries.ifChose(e) && ifBatteriesPicked && !ifBatteriesDeleted && !ifWantToExit) {
 				ifBatteriesChoose = !ifBatteriesChoose;
 				ifBulbChoose = false;
 				ifLanternChoose = false;
@@ -312,7 +313,7 @@ public class Room8 extends JPanel implements Room {
 				ifRemoteChoose = false;
 				ifKeyChoose = false;
 			}
-			if (bulb.ifChose(e) && ifBulbPicked && !ifBulbDeleted) {
+			if (bulb.ifChose(e) && ifBulbPicked && !ifBulbDeleted && !ifWantToExit) {
 				ifBulbChoose = !ifBulbChoose;
 				ifScrewdriverChoose = false;
 				ifLanternChoose = false;
@@ -355,18 +356,18 @@ public class Room8 extends JPanel implements Room {
 				message.setText(" ");
 			}
 			if (ifDoorLocked) {
-				if (ifKeyPicked && ifKeyChoose && door.ifClicked(e)) {
+				if (ifKeyPicked && ifKeyChoose && door.ifClicked(e) && !ifWantToExit) {
 					ifDoorLocked = false;
 					ifKeyDeleted = true;
 					ifKeyChoose = false;
 					se.setFile(openDoor);
-                    se.play();
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
+					se.play();
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					inventory.deleteItem(key);
 				}
 			}
@@ -382,32 +383,32 @@ public class Room8 extends JPanel implements Room {
 				exitRoom();
 			}
 			if (ifRemoteChoose) {
-				if (airConditioner.ifClicked(e)) {
+				if (airConditioner.ifClicked(e) && !ifWantToExit) {
 					if (ifBatteriesIn) {
 						airConditioner.setStart(new MousePoint(-60, 100));
 						airConditioner.setEnd(new MousePoint(730, 270));
 						airConditioner.setImg("/airconditionerOpen.png");
 						se.setFile(airS);
-	                    se.play();
-	                    try {
-	                        Thread.sleep(1000);
-	                    } catch (InterruptedException e1) {
-	                        // TODO Auto-generated catch block
-	                        e1.printStackTrace();
-	                    }
+						se.play();
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						ifAirconditioner = true;
 						ifRemoteChoose = false;
 						ifRemoteDeleted = true;
 						inventory.deleteItem(remote);
-						if (!ifKeyFall) {
+						if (!ifKeyFall && !ifWantToExit) {
 							se.setFile(keyS);
-		                    se.play();
-		                    try {
-		                        Thread.sleep(1000);
-		                    } catch (InterruptedException e1) {
-		                        // TODO Auto-generated catch block
-		                        e1.printStackTrace();
-		                    }
+							se.play();
+							try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 						}
 						ifKeyFall = true;
 					} else {
@@ -415,7 +416,7 @@ public class Room8 extends JPanel implements Room {
 					}
 				}
 			}
-			if (ifBatteriesChoose && ifRemotePicked && ifBatteriesInInventory) {
+			if (ifBatteriesChoose && ifRemotePicked && ifBatteriesInInventory && !ifWantToExit) {
 				if (remote.ifChose(e)) {
 					ifBatteriesChoose = false;
 					ifBatteriesDeleted = true;
@@ -428,7 +429,7 @@ public class Room8 extends JPanel implements Room {
 				}
 			}
 			if (ifScrewdriverChoose) {
-				if (lantern.ifChose(e) && !ifBatteriesPicked) {
+				if (lantern.ifChose(e) && !ifBatteriesPicked && !ifWantToExit) {
 					ifLanternDeleted = true;
 					ifLanternChoose = false;
 					ifScrewdriverDeleted = true;
@@ -445,22 +446,22 @@ public class Room8 extends JPanel implements Room {
 			}
 			if (!ifCloseFrame) {
 				if (ifKeyFall) {
-					if (key.ifChose(e) && !ifKeyPicked) {
+					if (key.ifChose(e) && !ifKeyPicked && !ifWantToExit) {
 						key.setStart(new MousePoint(10, 10));
 						key.setEnd(new MousePoint(120, 95));
 						inventory.addItem(key);
 						ifKeyPicked = true;
 					}
 				}
-				if (switch_.ifClicked(e) && !ifBulbPicked) {
+				if (switch_.ifClicked(e) && !ifBulbPicked && !ifWantToExit) {
 					se.setFile(shalterS);
-                    se.play();
-                    try {
-                        Thread.sleep(300);
-                    } catch (InterruptedException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
+					se.play();
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					ifLampOn = !ifLampOn;
 				}
 				if (ifDoorOpen) {
@@ -476,36 +477,13 @@ public class Room8 extends JPanel implements Room {
 						lamp.setImg("/lampOff7.png");
 					}
 				}
-				if (chair.ifClicked(e) && !ifDrawer1Close && !ifDrawer2Close && !ifDrawer3Close) {
-					ifChairMoved = !ifChairMoved;
-					if (ifChairMoved) {
-						chair.setStart(new MousePoint(730, 480));
-						chair.setEnd(new MousePoint(970, 840));
-					} else {
-						chair.setStart(new MousePoint(1200, 480));
-						chair.setEnd(new MousePoint(1440, 840));
-					}
-				}
-				if (ifChairMoved) {
-					if (lamp.ifClicked(e) && !ifDrawer1Close && !ifDrawer2Close && !ifDrawer3Close) {
-						if (ifLampOn) {
-							message.setText("Too warm, I can't to anything");
-						} else {
-							if (!ifBulbPicked) {
-								inventory.addItem(bulb);
-								ifBulbPicked = true;
-							}
-							lamp.setImg("/lampOffWithoutBulb.png");
-						}
-					}
-				}
-				if (books.ifClicked(e)) {
+				if (books.ifClicked(e) && !ifWantToExit) {
 					ifBooksClose = true;
 				}
-				if (mirror.ifClicked(e) && !ifDrawer1Close && !ifDrawer2Close && !ifDrawer3Close) {
+				if (mirror.ifClicked(e) && !ifDrawer1Close && !ifDrawer2Close && !ifDrawer3Close && !ifWantToExit) {
 					message.setText("A mirror.");
 				}
-				if (deskLamp.ifClicked(e)) {
+				if (deskLamp.ifClicked(e) && !ifWantToExit) {
 					if (ifBulbChoose && !ifBulbInLamp) {
 						ifBulbInLamp = true;
 						ifBulbChoose = false;
@@ -514,7 +492,7 @@ public class Room8 extends JPanel implements Room {
 						lock = true;
 					}
 				}
-				if (deskLamp.ifClicked(e) && !ifDrawer1Close && !ifDrawer2Close && !ifDrawer3Close) {
+				if (deskLamp.ifClicked(e) && !ifDrawer1Close && !ifDrawer2Close && !ifDrawer3Close && !ifWantToExit) {
 					if (!lock && ifBulbInLamp) {
 						ifLampUp = !ifLampUp;
 					}
@@ -540,25 +518,49 @@ public class Room8 extends JPanel implements Room {
 				if (ifBooksClose) {
 					books.setStart(new MousePoint(600, 450));
 					books.setEnd(new MousePoint(1000, 850));
-					if (back1.ifClicked(e)) {
+					if (back1.ifClicked(e) && !ifWantToExit) {
 						books.setStart(new MousePoint(420, 420));
 						books.setEnd(new MousePoint(560, 540));
 						ifBooksClose = false;
 					}
 				}
-				if (door.ifClicked(e) && !ifDrawer1Close && !ifDrawer2Close && !ifDrawer3Close && ifDoorLocked) {
+				if (door.ifClicked(e) && !ifDrawer1Close && !ifDrawer2Close && !ifDrawer3Close && ifDoorLocked
+						&& !ifWantToExit && !ifChairMoved && !ifBooksClose) {
 					message.setText("It's locked.");
 					se.setFile(lockS);
-                    se.play();
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
+					se.play();
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				if (chair.ifClicked(e) && !ifDrawer1Close && !ifDrawer2Close && !ifDrawer3Close && !ifWantToExit) {
+					ifChairMoved = !ifChairMoved;
+					if (ifChairMoved) {
+						chair.setStart(new MousePoint(730, 480));
+						chair.setEnd(new MousePoint(970, 840));
+					} else {
+						chair.setStart(new MousePoint(1200, 480));
+						chair.setEnd(new MousePoint(1440, 840));
+					}
+				}
+				if (ifChairMoved) {
+					if (lamp.ifClicked(e) && !ifDrawer1Close && !ifDrawer2Close && !ifDrawer3Close && !ifWantToExit) {
+						if (ifLampOn) {
+							message.setText("Too warm, I can't to anything");
+						} else {
+							if (!ifBulbPicked && !ifWantToExit) {
+								inventory.addItem(bulb);
+								ifBulbPicked = true;
+							}
+							lamp.setImg("/lampOffWithoutBulb.png");
+						}
+					}
 				}
 				// drawer3
-				if (ifDrawer3Close) {
+				if (ifDrawer3Close && !ifWantToExit) {
 					if (num1.ifClicked(e) && !ifCode3) {
 						count++;
 						accum = accum + "1";
@@ -610,13 +612,13 @@ public class Room8 extends JPanel implements Room {
 					}
 				}
 				if (e.getX() >= 420 && e.getX() <= 585 && e.getY() >= 565 && e.getY() <= 620 && !ifDrawer1Close
-						&& !ifDrawer2Close) {
+						&& !ifDrawer2Close && !ifWantToExit) {
 					ifDrawer3Close = true;
 					message.setText("********");
 				}
 				// drawer2
 				if (e.getX() >= 420 && e.getX() <= 585 && e.getY() >= 690 && e.getY() <= 795 && !ifDrawer1Close
-						&& !ifDrawer3Close) {
+						&& !ifDrawer3Close && !ifWantToExit) {
 					ifDrawer2Close = true;
 					a1 = "h";
 					a2 = "h";
@@ -627,7 +629,7 @@ public class Room8 extends JPanel implements Room {
 					button3.setImg("/h.png");
 					button4.setImg("/h.png");
 				}
-				if (ifDrawer2Close) {
+				if (ifDrawer2Close && !ifWantToExit) {
 					if (button1.ifClicked(e) && !ifCode2) {
 						Room8CodeHelper2 helper = new Room8CodeHelper2(button1, a1);
 						a1 = helper.getNewDirection();
@@ -697,14 +699,14 @@ public class Room8 extends JPanel implements Room {
 						message.setText("Correct!");
 						ifCode2 = true;
 					}
-					if (back3.ifClicked(e)) {
+					if (back3.ifClicked(e) && !ifWantToExit) {
 						ifDrawer2Close = false;
 					}
 					if (ifCode2) {
 						drawer2.setStart(new MousePoint(10, 10));
 						drawer2.setEnd(new MousePoint(1510, 1000));
 						drawer2.setImg("/drawer8.2.png");
-						if (!ifScrewdriverPicked) {
+						if (!ifScrewdriverPicked && !ifWantToExit) {
 							if (screwdriver.ifChose(e)) {
 								screwdriver.setStart(new MousePoint(10, 10));
 								screwdriver.setEnd(new MousePoint(130, 105));
@@ -717,10 +719,10 @@ public class Room8 extends JPanel implements Room {
 				}
 				// drawer1
 				if (e.getX() >= 120 && e.getX() <= 415 && e.getY() >= 565 && e.getY() <= 620 && !ifDrawer2Close
-						&& !ifDrawer3Close) {
+						&& !ifDrawer3Close && !ifWantToExit) {
 					ifDrawer1Close = true;
 				}
-				if (ifDrawer1Close) {
+				if (ifDrawer1Close && !ifWantToExit) {
 					if (buttonA.ifClicked(e) && !ifCode1) {
 						Room8CodeHelper helper = new Room8CodeHelper(buttonA, b1);
 						b1 = helper.getNewDirection();
@@ -764,7 +766,7 @@ public class Room8 extends JPanel implements Room {
 						message.setText("Correct!");
 						ifCode1 = true;
 					}
-					if (back2.ifClicked(e)) {
+					if (back2.ifClicked(e) && !ifWantToExit) {
 						ifDrawer1Close = false;
 						buttonA.setImg("/lightBlue.png");
 						buttonB.setImg("/lightBlue.png");

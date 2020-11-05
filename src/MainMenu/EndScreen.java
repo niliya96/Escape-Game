@@ -3,14 +3,16 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import Sprites.Background;
 import Sprites.ClickedObject;
 import Tools.MousePoint;
 public class EndScreen extends JPanel {
-    private JFrame frame;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JFrame frame;
     Background b;
     ClickedObject exitsign;
     ClickedObject menusign;

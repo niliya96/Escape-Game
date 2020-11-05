@@ -1,4 +1,5 @@
 package MainMenu;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
@@ -12,26 +13,34 @@ import Sprites.Background;
 import Sprites.ClickedObject;
 import Sprites.SoundEffect;
 import Tools.MousePoint;
+
 /**
  * Menu
- * @author Nili
- *This is the main menu of the game. The menu includes 3 operations:
- *start a new game, exit the game, read the instructions of the game.
+ * 
+ * @author Nili This is the main menu of the game. The menu includes 3
+ *         operations: start a new game, exit the game, read the instructions of
+ *         the game.
  */
 public class Menu extends JPanel {
-    private JFrame frame;
-    SoundEffect se = new SoundEffect();
-    String enter = ".//res//door_open_sound.wav";
-    String exit = ".//res//closed_door.wav";
-    Background b;
-    // here all the clickables are doors that functioning as buttons, and sign with the operation on each door.
-    ClickedObject newGameDoor;
-    ClickedObject exitDoor;
-    ClickedObject instructionsDoor;
-    ClickedObject exitsign;
-    ClickedObject playsign;
-    ClickedObject instructionsSign;
-    public Menu(JFrame frame) {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JFrame frame;
+	SoundEffect se = new SoundEffect();
+	String enter = "/door_open_sound.wav";
+	String exit = "/closed_door.wav";
+	Background b;
+	// here all the clickables are doors that functioning as buttons, and sign with
+	// the operation on each door.
+	ClickedObject newGameDoor;
+	ClickedObject exitDoor;
+	ClickedObject instructionsDoor;
+	ClickedObject exitsign;
+	ClickedObject playsign;
+	ClickedObject instructionsSign;
+
+	public Menu(JFrame frame) {
         super();
         this.frame = frame;
         b = new Background("/startScreenBackground.png", new MousePoint(10, 10), new MousePoint(1510, 1000));
@@ -58,111 +67,116 @@ public class Menu extends JPanel {
         addMouseListener(new MyMouseListener(this.frame, this));
         addMouseMotionListener(new MyMouseListener(this.frame, this));
     }
-    
-    class MyMouseListener extends MouseAdapter {
-        JFrame frame;
-        Menu menu;
-        public MyMouseListener(JFrame f, Menu m) {
-            this.frame = f;
-            this.menu = m;
-        }
-        /**
-         * Responsable for the operations when an object is clicked.
-         */
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            // exit door is clicked
-            if (exitDoor.ifClicked(e)) {
-                se.setFile(exit);
-                se.play();
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
-                // exit operation
-                System.exit(0);
-            }
-            // new game door is clicked
-            if (newGameDoor.ifClicked(e)) {
-                se.setFile(enter);
-                se.play();
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
-                // new game operation
-                setVisible(false);
-                frame.setContentPane(new GamePanel(this.frame));
-                frame.getContentPane().remove(this.menu);
-            }
-            // instructions door is clicked
-            if (instructionsDoor.ifClicked(e)) {
-                se.setFile(enter);
-                se.play();
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
-                // instructions pannel
-                setVisible(false);
-                frame.setContentPane(new InstructionsPanel(this.frame));
-                frame.getContentPane().remove(this.menu);
-            }
-        }
-        /**
-         * Responsable for the effects when the mouse is moved on a clickable object (not pressed).
-         */
-        @Override
-        public void mouseMoved(MouseEvent e) {
-            // new Game button
-            if (e.getX() >= 590 && e.getX() <= 930 && e.getY() >= 235 && e.getY() <= 867) {
-                newGameDoor.setStart(new MousePoint(585, 230));
-                newGameDoor.setEnd(new MousePoint(935, 870));
-                playsign.setStart(new MousePoint(635, 350));
-                playsign.setEnd(new MousePoint(885, 520));
-                playsign.setImg("/playBig.png");
-            } else {
-                newGameDoor.setStart(new MousePoint(590, 235));
-                newGameDoor.setEnd(new MousePoint(930, 867));
-                playsign.setStart(new MousePoint(640, 355));
-                playsign.setEnd(new MousePoint(880, 515));
-                playsign.setImg("/play.png");
-            }
-            // exit Game button
-            if (e.getX() >= 1020 && e.getX() <= 1360 && e.getY() >= 235 && e.getY() <= 867) {
-                exitDoor.setStart(new MousePoint(1015, 230));
-                exitDoor.setEnd(new MousePoint(1365, 870));
-                exitsign.setStart(new MousePoint(1065, 350));
-                exitsign.setEnd(new MousePoint(1315, 520));
-                exitsign.setImg("/exitBig.png");
-            } else {
-                exitDoor.setStart(new MousePoint(1020, 235));
-                exitDoor.setEnd(new MousePoint(1360, 867));
-                exitsign.setStart(new MousePoint(1070, 355));
-                exitsign.setEnd(new MousePoint(1310, 515));
-                exitsign.setImg("/exit.png");
-            }
-            // instruction button
-            if (e.getX() >= 160 && e.getX() <= 500 && e.getY() >= 235 && e.getY() <= 867) {
-                instructionsDoor.setStart(new MousePoint(155, 230));
-                instructionsDoor.setEnd(new MousePoint(505, 870));
-                instructionsSign.setStart(new MousePoint(205, 350));
-                instructionsSign.setEnd(new MousePoint(455, 520));
-                instructionsSign.setImg("/instructionsBig.png");
-            } else {
-                instructionsDoor.setStart(new MousePoint(160, 235));
-                instructionsDoor.setEnd(new MousePoint(500, 867));
-                instructionsSign.setStart(new MousePoint(210, 355));
-                instructionsSign.setEnd(new MousePoint(450, 515));
-                instructionsSign.setImg("/instructions.png");
-            }
-            repaint();
-        }
-    }
-    @Override
+
+	class MyMouseListener extends MouseAdapter {
+		JFrame frame;
+		Menu menu;
+
+		public MyMouseListener(JFrame f, Menu m) {
+			this.frame = f;
+			this.menu = m;
+		}
+
+		/**
+		 * Responsable for the operations when an object is clicked.
+		 */
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// exit door is clicked
+			if (exitDoor.ifClicked(e)) {
+				se.setFile(exit);
+				se.play();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				// exit operation
+				System.exit(0);
+			}
+			// new game door is clicked
+			if (newGameDoor.ifClicked(e)) {
+				se.setFile(enter);
+				se.play();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				// new game operation
+				setVisible(false);
+				frame.setContentPane(new GamePanel(this.frame));
+				frame.getContentPane().remove(this.menu);
+			}
+			// instructions door is clicked
+			if (instructionsDoor.ifClicked(e)) {
+				se.setFile(enter);
+				se.play();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				// instructions pannel
+				setVisible(false);
+				frame.setContentPane(new InstructionsPanel(this.frame));
+				frame.getContentPane().remove(this.menu);
+			}
+		}
+
+		/**
+		 * Responsable for the effects when the mouse is moved on a clickable object
+		 * (not pressed).
+		 */
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			// new Game button
+			if (e.getX() >= 590 && e.getX() <= 930 && e.getY() >= 235 && e.getY() <= 867) {
+				newGameDoor.setStart(new MousePoint(585, 230));
+				newGameDoor.setEnd(new MousePoint(935, 870));
+				playsign.setStart(new MousePoint(635, 350));
+				playsign.setEnd(new MousePoint(885, 520));
+				playsign.setImg("/playBig.png");
+			} else {
+				newGameDoor.setStart(new MousePoint(590, 235));
+				newGameDoor.setEnd(new MousePoint(930, 867));
+				playsign.setStart(new MousePoint(640, 355));
+				playsign.setEnd(new MousePoint(880, 515));
+				playsign.setImg("/play.png");
+			}
+			// exit Game button
+			if (e.getX() >= 1020 && e.getX() <= 1360 && e.getY() >= 235 && e.getY() <= 867) {
+				exitDoor.setStart(new MousePoint(1015, 230));
+				exitDoor.setEnd(new MousePoint(1365, 870));
+				exitsign.setStart(new MousePoint(1065, 350));
+				exitsign.setEnd(new MousePoint(1315, 520));
+				exitsign.setImg("/exitBig.png");
+			} else {
+				exitDoor.setStart(new MousePoint(1020, 235));
+				exitDoor.setEnd(new MousePoint(1360, 867));
+				exitsign.setStart(new MousePoint(1070, 355));
+				exitsign.setEnd(new MousePoint(1310, 515));
+				exitsign.setImg("/exit.png");
+			}
+			// instruction button
+			if (e.getX() >= 160 && e.getX() <= 500 && e.getY() >= 235 && e.getY() <= 867) {
+				instructionsDoor.setStart(new MousePoint(155, 230));
+				instructionsDoor.setEnd(new MousePoint(505, 870));
+				instructionsSign.setStart(new MousePoint(205, 350));
+				instructionsSign.setEnd(new MousePoint(455, 520));
+				instructionsSign.setImg("/instructionsBig.png");
+			} else {
+				instructionsDoor.setStart(new MousePoint(160, 235));
+				instructionsDoor.setEnd(new MousePoint(500, 867));
+				instructionsSign.setStart(new MousePoint(210, 355));
+				instructionsSign.setEnd(new MousePoint(450, 515));
+				instructionsSign.setImg("/instructions.png");
+			}
+			repaint();
+		}
+	}
+
+	@Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         b.paintComponent(g);

@@ -12,7 +12,11 @@ import Tools.*;
  *start, end- represents the top right and bottom left corners of the object.
  */
 public class ClickedObject extends JPanel implements Clickable {
-    protected BufferedImage img;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	protected BufferedImage img;
     protected MousePoint start;
     protected MousePoint end;
     public ClickedObject(String path, MousePoint start, MousePoint end) {

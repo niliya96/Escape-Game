@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import MainMenu.GamePanel;
 import MainMenu.Menu;
-import Rooms.Room8.MyMouseListener;
 import Sprites.Background;
 import Sprites.Clickable;
 import Sprites.ClickedObject;
@@ -23,10 +22,13 @@ import Tools.ImageReader;
 import Tools.InventoryPanel;
 import Tools.MousePoint;
 import Tools.Room10CodeHelper;
-import Tools.Room2CodeHelper;
 import Tools.WallBegin;
 
 public class Room10 extends JPanel implements Room {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	ImageReader background;
 	GamePanel game;
 	JLabel message;
@@ -40,9 +42,9 @@ public class Room10 extends JPanel implements Room {
 	 * Sounds
 	 */
 	SoundEffect se = new SoundEffect();
-    String lockS = ".//res//lock_sound.wav";
-	String openDoor = ".//res//door_open_sound.wav";
-	String glassS = ".//res//glass_sound.wav";
+	String lockS = "/lock_sound.wav";
+	String openDoor = "/door_open_sound.wav";
+	String glassS = "/glass_sound.wav";
 	/**
 	 * Booleans
 	 */
@@ -348,7 +350,7 @@ public class Room10 extends JPanel implements Room {
 			/**
 			 * inventory
 			 */
-			if (globe.ifChose(e) && ifGlobePicked && !ifGlobeDeleted) {
+			if (globe.ifChose(e) && ifGlobePicked && !ifGlobeDeleted && !ifWantToExit) {
 				ifGlobeChoose = !ifGlobeChoose;
 				ifNapkinChoose = false;
 				ifBinocularsChoose = false;
@@ -357,7 +359,7 @@ public class Room10 extends JPanel implements Room {
 				ifKeyChoose = false;
 				ifLanternChoose = false;
 			}
-			if (napkin.ifChose(e) && ifNapkinPicked && !ifNapkinDeleted) {
+			if (napkin.ifChose(e) && ifNapkinPicked && !ifNapkinDeleted && !ifWantToExit) {
 				ifNapkinChoose = !ifNapkinChoose;
 				ifGlobeChoose = false;
 				ifBinocularsChoose = false;
@@ -366,7 +368,7 @@ public class Room10 extends JPanel implements Room {
 				ifKeyChoose = false;
 				ifLanternChoose = false;
 			}
-			if (key.ifChose(e) && ifKeyPicked && !ifKeyDeleted) {
+			if (key.ifChose(e) && ifKeyPicked && !ifKeyDeleted && !ifWantToExit) {
 				ifKeyChoose = !ifKeyChoose;
 				ifNapkinChoose = false;
 				ifBinocularsChoose = false;
@@ -375,7 +377,7 @@ public class Room10 extends JPanel implements Room {
 				ifGlobeChoose = false;
 				ifLanternChoose = false;
 			}
-			if (finalKey.ifChose(e) && ifFinalKeyPicked && !ifFinalKeyDeleted) {
+			if (finalKey.ifChose(e) && ifFinalKeyPicked && !ifFinalKeyDeleted && !ifWantToExit) {
 				ifFinalKeyChoose = !ifFinalKeyChoose;
 				ifNapkinChoose = false;
 				ifBinocularsChoose = false;
@@ -384,7 +386,7 @@ public class Room10 extends JPanel implements Room {
 				ifKeyChoose = false;
 				ifLanternChoose = false;
 			}
-			if (binoculars.ifChose(e) && ifBinocularsPicked && !ifBinocularsDeleted) {
+			if (binoculars.ifChose(e) && ifBinocularsPicked && !ifBinocularsDeleted && !ifWantToExit) {
 				ifBinocularsChoose = !ifBinocularsChoose;
 				ifNapkinChoose = false;
 				ifGlobeChoose = false;
@@ -393,7 +395,7 @@ public class Room10 extends JPanel implements Room {
 				ifKeyChoose = false;
 				ifLanternChoose = false;
 			}
-			if (lantern.ifChose(e) && ifLanternPicked && !ifLanternDeleted) {
+			if (lantern.ifChose(e) && ifLanternPicked && !ifLanternDeleted && !ifWantToExit) {
 				ifLanternChoose = !ifLanternChoose;
 				ifNapkinChoose = false;
 				ifBinocularsChoose = false;
@@ -402,7 +404,7 @@ public class Room10 extends JPanel implements Room {
 				ifKeyChoose = false;
 				ifGlobeChoose = false;
 			}
-			if (book.ifChose(e) && ifBookPicked && !ifBookDeleted) {
+			if (book.ifChose(e) && ifBookPicked && !ifBookDeleted && !ifWantToExit) {
 				ifBookChoose = !ifBookChoose;
 				ifNapkinChoose = false;
 				ifBinocularsChoose = false;
@@ -447,7 +449,8 @@ public class Room10 extends JPanel implements Room {
 				book.setImg("/book.png");
 			}
 			if (ifDoorLocked) {
-				if (ifFinalKeyPicked && ifFinalKeyChoose && doorFinal.ifClicked(e) && ifLaibraryMoved) {
+				if (ifFinalKeyPicked && ifFinalKeyChoose && doorFinal.ifClicked(e) && ifLaibraryMoved
+						&& !ifWantToExit) {
 					ifDoorLocked = false;
 					ifFinalKeyChoose = false;
 					ifFinalKeyDeleted = true;
@@ -461,16 +464,17 @@ public class Room10 extends JPanel implements Room {
 					}
 					inventory.deleteItem(finalKey);
 				}
-				if (doorFinal.ifClicked(e) && ifLaibraryMoved && !ifFinalKeyChoose && !ifDoorOpen && ifDoorLocked) {
+				if (doorFinal.ifClicked(e) && ifLaibraryMoved && !ifFinalKeyChoose && !ifDoorOpen && ifDoorLocked
+						&& !ifWantToExit) {
 					message.setText("It's locked.");
 					se.setFile(lockS);
-                    se.play();
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
+					se.play();
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 
 			}
@@ -490,7 +494,7 @@ public class Room10 extends JPanel implements Room {
 			 * first wall
 			 */
 			if (ifFirstWall) {
-				if (nextWall.ifClicked(e) && !ifCloseFrame) {
+				if (nextWall.ifClicked(e) && !ifCloseFrame && !ifWantToExit) {
 					ifFirstWall = false;
 				}
 				// not close frame
@@ -498,14 +502,14 @@ public class Room10 extends JPanel implements Room {
 					if (ifDoorOpen) {
 						exitStatus = true;
 					}
-					if (ifBookIn) {
+					if (ifBookIn && !ifWantToExit) {
 						if (laibrary.ifClicked(e)) {
 							laibrary.setStart(new MousePoint(660, 100));
 							laibrary.setEnd(new MousePoint(1200, 900));
 							ifLaibraryMoved = true;
 						}
 					}
-					if (globe.ifChose(e) && !ifGlobePicked) {
+					if (globe.ifChose(e) && !ifGlobePicked && !ifWantToExit) {
 						inventory.addItem(globe);
 						globe.setStart(new MousePoint(10, 10));
 						globe.setEnd(new MousePoint(100, 120));
@@ -513,25 +517,27 @@ public class Room10 extends JPanel implements Room {
 						ifGlobePicked = true;
 					}
 					// outside
-					if (e.getX() >= 110 && e.getX() <= 650 && e.getY() >= 250 && e.getY() <= 480) {
+					if (e.getX() >= 110 && e.getX() <= 650 && e.getY() >= 250 && e.getY() <= 480 && !ifWantToExit) {
 						ifCloseFrame = true;
 						Outside = true;
 					}
 					// close laibrary
-					if (e.getX() >= 1120 && e.getX() <= 1380 && e.getY() >= 430 && e.getY() <= 580 && !ifBookIn) {
+					if (e.getX() >= 1120 && e.getX() <= 1380 && e.getY() >= 430 && e.getY() <= 580 && !ifBookIn
+							&& !ifWantToExit) {
 						ifCloseFrame = true;
 						ifLaibraryClose = true;
 					}
-					if (picture.ifClicked(e)) {
+					if (picture.ifClicked(e) && !ifWantToExit) {
 						message.setText("Sometimes you just need to complete the missing piece.");
 					}
 					// close sofa
-					if (e.getX() >= 440 && e.getX() <= 640 && e.getY() >= 505 && e.getY() <= 730) {
+					if (e.getX() >= 440 && e.getX() <= 640 && e.getY() >= 505 && e.getY() <= 730 && !ifWantToExit) {
 						ifCloseFrame = true;
 						ifSofaClose = true;
 					}
 					// close code laibrary
-					if (e.getX() >= 1115 && e.getX() <= 1385 && e.getY() >= 595 && e.getY() <= 760 && !ifBookIn) {
+					if (e.getX() >= 1115 && e.getX() <= 1385 && e.getY() >= 595 && e.getY() <= 760 && !ifBookIn
+							&& !ifWantToExit) {
 						if (ifCodeLaibrary) {
 							closeCodeLaibrary.setImg("/openLaibrary.png");
 							ifSecondTimeOpen = true;
@@ -541,13 +547,13 @@ public class Room10 extends JPanel implements Room {
 					}
 				} else {
 					if (Outside) {
-						if (back1.ifClicked(e)) {
+						if (back1.ifClicked(e) && !ifWantToExit) {
 							Outside = false;
 							ifCloseFrame = false;
 							outside.setImg("/outside.png");
 						}
 						if (e.getX() >= 65 && e.getX() <= 210 && e.getY() >= 405 && e.getY() <= 590
-								&& ifBinocularsChoose && ifBinocularsPicked) {
+								&& ifBinocularsChoose && ifBinocularsPicked && !ifWantToExit) {
 							outside.setImg("/outsideClose.png");
 						} else {
 							message.setText("Too far from me.");
@@ -555,24 +561,25 @@ public class Room10 extends JPanel implements Room {
 						}
 					}
 					if (ifLaibraryClose) {
-						if (back2.ifClicked(e)) {
+						if (back2.ifClicked(e) && !ifWantToExit) {
 							ifLaibraryClose = false;
 							ifBookClose = false;
 							ifCloseFrame = false;
 						}
 						if (!fullOfDust) {
-							if (e.getX() >= 280 && e.getX() <= 560 && e.getY() >= 385 && e.getY() <= 470) {
+							if (e.getX() >= 280 && e.getX() <= 560 && e.getY() >= 385 && e.getY() <= 470
+									&& !ifWantToExit) {
 								ifBookClose = true;
 							}
 						}
-						if (e.getX() >= 280 && e.getX() <= 560 && e.getY() >= 385 && e.getY() <= 470
-								&& ifNapkinChoose) {
+						if (e.getX() >= 280 && e.getX() <= 560 && e.getY() >= 385 && e.getY() <= 470 && ifNapkinChoose
+								&& !ifWantToExit) {
 							fullOfDust = false;
 							ifNapkinChoose = false;
 							ifNapkinDeleted = true;
 							inventory.deleteItem(napkin);
 						}
-						if (e.getX() >= 280 && e.getX() <= 560 && e.getY() >= 385 && e.getY() <= 470) {
+						if (e.getX() >= 280 && e.getX() <= 560 && e.getY() >= 385 && e.getY() <= 470 && !ifWantToExit) {
 							if (fullOfDust) {
 								message.setText("Full of dust.");
 							} else {
@@ -580,10 +587,10 @@ public class Room10 extends JPanel implements Room {
 							}
 						}
 						// box
-						if (e.getX() >= 565 && e.getX() <= 940 && e.getY() >= 260 && e.getY() <= 465) {
+						if (e.getX() >= 565 && e.getX() <= 940 && e.getY() >= 260 && e.getY() <= 465 && !ifWantToExit) {
 							message.setText("It's locked.");
 						}
-						if (e.getX() >= 675 && e.getX() <= 830 && e.getY() >= 620 && e.getY() <= 860) {
+						if (e.getX() >= 675 && e.getX() <= 830 && e.getY() >= 620 && e.getY() <= 860 && !ifWantToExit) {
 							if (ifBookChoose && !ifBookIn && !fullOfDust) {
 								closeLaibrary.setImg("/closeLaibraryWithBook.png");
 								laibrary.setImg("/finalLaibrary.png");
@@ -598,11 +605,11 @@ public class Room10 extends JPanel implements Room {
 						}
 					}
 					if (ifSofaClose) {
-						if (back3.ifClicked(e)) {
+						if (back3.ifClicked(e) && !ifWantToExit) {
 							ifSofaClose = false;
 							ifCloseFrame = false;
 						}
-						if (e.getX() >= 800 && e.getX() <= 895 && e.getY() >= 480 && e.getY() <= 615) {
+						if (e.getX() >= 800 && e.getX() <= 895 && e.getY() >= 480 && e.getY() <= 615 && !ifWantToExit) {
 							if (!ifNapkinPicked) {
 								inventory.addItem(napkin);
 								ifNapkinPicked = true;
@@ -611,7 +618,7 @@ public class Room10 extends JPanel implements Room {
 						}
 					}
 					if (ifCodeLaibraryClose) {
-						if (back4.ifClicked(e)) {
+						if (back4.ifClicked(e) && !ifWantToExit) {
 							message.setText(" ");
 							ifCloseFrame = false;
 							ifCodeLaibraryClose = false;
@@ -623,9 +630,9 @@ public class Room10 extends JPanel implements Room {
 								ifAgain = true;
 							}
 						}
-						if (ifCodeLaibrary && ifAgain) {
+						if (ifCodeLaibrary && ifAgain && !ifWantToExit) {
 							if (!ifBinocularsPicked) {
-								if (binoculars.ifChose(e)) {
+								if (binoculars.ifChose(e) && !ifWantToExit) {
 									binoculars.setStart(new MousePoint(800, 500));
 									binoculars.setEnd(new MousePoint(950, 600));
 									inventory.addItem(binoculars);
@@ -633,7 +640,7 @@ public class Room10 extends JPanel implements Room {
 									message.setText("I picked binoculars.");
 								}
 							}
-							if (!ifKeyPicked) {
+							if (!ifKeyPicked && !ifWantToExit) {
 								if (key.ifChose(e)) {
 									key.setStart(new MousePoint(10, 10));
 									key.setEnd(new MousePoint(120, 95));
@@ -643,7 +650,7 @@ public class Room10 extends JPanel implements Room {
 								}
 							}
 						}
-						if (ifCodeLaibraryCloseTwice) {
+						if (ifCodeLaibraryCloseTwice && !ifWantToExit) {
 							if (button1.ifClicked(e) && !ifCodeLaibrary) {
 								accum = accum + "B";
 							}
@@ -708,27 +715,27 @@ public class Room10 extends JPanel implements Room {
 			 * second wall
 			 */
 			else {
-				if (backWall.ifClicked(e) && !ifCloseFrame) {
+				if (backWall.ifClicked(e) && !ifCloseFrame && !ifWantToExit) {
 					ifFirstWall = true;
 				}
 				// not close frame
 				if (!ifCloseFrame) {
-					if (e.getX() >= 615 && e.getX() <= 705 && e.getY() >= 500 && e.getY() <= 580) {
+					if (e.getX() >= 615 && e.getX() <= 705 && e.getY() >= 500 && e.getY() <= 580 && !ifWantToExit) {
 						ifStandClose = true;
 						ifCloseFrame = true;
 					}
-					if (door.ifClicked(e)) {
+					if (door.ifClicked(e) && !ifWantToExit) {
 						message.setText("It's locked.");
 						se.setFile(lockS);
-                        se.play();
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
-                        }
+						se.play();
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
-					if (mirror.ifClicked(e)) {
+					if (mirror.ifClicked(e) && !ifWantToExit) {
 						if (ifMirrorBroken) {
 							if (accessToSecreteRoom) {
 								ifSecreteRoom = true;
@@ -736,7 +743,7 @@ public class Room10 extends JPanel implements Room {
 							}
 						}
 					}
-					if (mirror.ifClicked(e) && ifGlobeChoose) {
+					if (mirror.ifClicked(e) && ifGlobeChoose && !ifWantToExit) {
 						se.setFile(glassS);
 						se.play();
 						try {
@@ -747,26 +754,26 @@ public class Room10 extends JPanel implements Room {
 						}
 						ifMirrorBroken = true;
 					}
-					if (ifMirrorBroken) {
+					if (ifMirrorBroken && !ifWantToExit) {
 						mirror.setImg("/mirror10Broken.png");
 						ifGlobeChoose = false;
 						ifGlobeDeleted = true;
 						inventory.deleteItem(globe);
 						accessToSecreteRoom = true;
 					}
-					if (mirror.ifClicked(e)) {
+					if (mirror.ifClicked(e) && !ifWantToExit) {
 						if (!ifMirrorBroken) {
 							message.setText("An ancient mirror.");
 						}
 					}
-					if (!ifBoxLocked) {
+					if (!ifBoxLocked && !ifWantToExit) {
 						if (box.ifClicked(e) && !ifLanternPicked) {
 							inventory.addItem(lantern);
 							ifLanternPicked = true;
 							message.setText("I picked a flashlight.");
 						}
 					}
-					if (box.ifClicked(e)) {
+					if (box.ifClicked(e) && !ifWantToExit) {
 						if (ifKeyChoose) {
 							ifBoxLocked = false;
 							ifKeyChoose = false;
@@ -780,11 +787,12 @@ public class Room10 extends JPanel implements Room {
 					}
 				} else {
 					if (ifStandClose) {
-						if (back7.ifClicked(e)) {
+						if (back7.ifClicked(e) && !ifWantToExit) {
 							ifCloseFrame = false;
 							ifStandClose = false;
 						}
-						if (e.getX() >= 965 && e.getX() <= 1045 && e.getY() >= 360 && e.getY() <= 465) {
+						if (e.getX() >= 965 && e.getX() <= 1045 && e.getY() >= 360 && e.getY() <= 465
+								&& !ifWantToExit) {
 							if (!ifFinalKeyPicked) {
 								closeCoatStand.setImg("/closeCoatStendWithoutKey.png");
 								inventory.addItem(finalKey);
@@ -793,14 +801,14 @@ public class Room10 extends JPanel implements Room {
 							}
 						}
 					}
-					if (ifSecreteRoom) {
-						if (back5.ifClicked(e) && !ifCloseCupboard) {
+					if (ifSecreteRoom && !ifWantToExit) {
+						if (back5.ifClicked(e) && !ifCloseCupboard && !ifWantToExit) {
 							ifSecreteRoom = false;
 							ifCloseFrame = false;
 							ifLanternChoose = false;
 							lantern.setImg("/lantern.png");
 						}
-						if (spider.ifClicked(e) && !ifCloseCupboard) {
+						if (spider.ifClicked(e) && !ifCloseCupboard && !ifWantToExit) {
 							ifSpiderMoved = !ifSpiderMoved;
 							if (ifSpiderMoved == false) {
 								spider.setStart(new MousePoint(190, 490));
@@ -811,19 +819,19 @@ public class Room10 extends JPanel implements Room {
 								spider.setEnd(new MousePoint(410, 840));
 							}
 						}
-						if (picture2.ifClicked(e) && !ifCloseCupboard) {
+						if (picture2.ifClicked(e) && !ifCloseCupboard && !ifWantToExit) {
 							message.setText("Hmmm...Wonder if i saw it befor.");
 						}
 						if (ifCloseCupboardFlag) {
 							if (validityOfClock) {
-								if (book.ifChose(e) && !ifBookPicked) {
+								if (book.ifChose(e) && !ifBookPicked && !ifWantToExit) {
 									ifBookPicked = true;
 									book.setStart(new MousePoint(800, 850));
 									book.setEnd(new MousePoint(950, 950));
 									inventory.addItem(book);
 								}
 							}
-							if (back6.ifClicked(e)) {
+							if (back6.ifClicked(e) && !ifWantToExit) {
 								c1.setImg("/12.10.png");
 								c2.setImg("/12.10.png");
 								c3.setImg("/12.10.png");
@@ -908,11 +916,12 @@ public class Room10 extends JPanel implements Room {
 							}
 						}
 						if (cupboard.ifClicked(e)) {
-							if (e.getX() >= 290 && e.getX() <= 435 && e.getY() >= 614 && e.getY() <= 680) {
+							if (e.getX() >= 290 && e.getX() <= 435 && e.getY() >= 614 && e.getY() <= 680
+									&& !ifWantToExit) {
 								ifCloseCupboard = true;
 							}
 						}
-						if (ifCloseCupboard) {
+						if (ifCloseCupboard && !ifWantToExit) {
 							ifCloseCupboardFlag = true;
 						}
 						if (ifLanternChoose) {

@@ -10,16 +10,17 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import MainMenu.GamePanel;
 import MainMenu.Menu;
-import Rooms.Room3.MyMouseListener;
 
 public class Room6 extends JPanel implements Room {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	ImageReader background;
 	GamePanel game;
 	JLabel message;
@@ -31,9 +32,9 @@ public class Room6 extends JPanel implements Room {
 	 * Sounds
 	 */
 	SoundEffect se = new SoundEffect();
-    String lockS = ".//res//lock_sound.wav";
-	String openDoor = ".//res//door_open_sound.wav";
-	String shalterS = ".//res//shalter_sound.wav";
+	String lockS = "/lock_sound.wav";
+	String openDoor = "/door_open_sound.wav";
+	String shalterS = "/shalter_sound.wav";
 	/**
 	 * /** Booleans
 	 */
@@ -202,7 +203,7 @@ public class Room6 extends JPanel implements Room {
 		listClickables.add(shelf);
 		pillow = new ClickedObject("/pillow2.png", new MousePoint(250, 555), new MousePoint(360, 650));
 		listClickables.add(pillow);
-		closeSofa = new Background("/closeSofaWithshape.png", new MousePoint(10, 10), new MousePoint(1510, 1000));
+		closeSofa = new Background("/closeSofaWithShape.png", new MousePoint(10, 10), new MousePoint(1510, 1000));
 		closeHole = new Background("/sofaHoleWithCircle.png", new MousePoint(10, 10), new MousePoint(1510, 1000));
 		dices = new ClickedObject("/dices1Shapes.png", new MousePoint(220, 650), new MousePoint(650, 860));
 		listClickables.add(dices);
@@ -254,7 +255,7 @@ public class Room6 extends JPanel implements Room {
 			if (ifMessageNoComment) {
 				message.setText(" ");
 			}
-			if (ifDoorLocked) {
+			if (ifDoorLocked && !ifWantToExit) {
 				if (ifKeyPicked && ifKeyChoose && door.ifClicked(e)) {
 					ifDoorLocked = false;
 					ifKeyChoose = false;
@@ -283,7 +284,7 @@ public class Room6 extends JPanel implements Room {
 			/**
 			 * inventory items
 			 */
-			if (star.ifChose(e) && ifStarPicked && !ifStarDeleted) {
+			if (star.ifChose(e) && ifStarPicked && !ifStarDeleted && !ifWantToExit) {
 				ifStarChoose = !ifStarChoose;
 				ifHexagonChoose = false;
 				ifHeartChoose = false;
@@ -291,7 +292,7 @@ public class Room6 extends JPanel implements Room {
 				ifKeyChoose = false;
 				ifSicssorsChoose = false;
 			}
-			if (hexagon.ifChose(e) && ifHexagonPicked && !ifHexagonDeleted) {
+			if (hexagon.ifChose(e) && ifHexagonPicked && !ifHexagonDeleted && !ifWantToExit) {
 				ifHexagonChoose = !ifHexagonChoose;
 				ifStarChoose = false;
 				ifHeartChoose = false;
@@ -299,7 +300,7 @@ public class Room6 extends JPanel implements Room {
 				ifKeyChoose = false;
 				ifSicssorsChoose = false;
 			}
-			if (heart.ifChose(e) && ifHeartPicked && !ifHeartDeleted) {
+			if (heart.ifChose(e) && ifHeartPicked && !ifHeartDeleted && !ifWantToExit) {
 				ifHeartChoose = !ifHeartChoose;
 				ifHexagonChoose = false;
 				ifStarChoose = false;
@@ -307,7 +308,7 @@ public class Room6 extends JPanel implements Room {
 				ifKeyChoose = false;
 				ifSicssorsChoose = false;
 			}
-			if (circle.ifChose(e) && ifCirclePicked && !ifCircleDeleted) {
+			if (circle.ifChose(e) && ifCirclePicked && !ifCircleDeleted && !ifWantToExit) {
 				ifCircleChoose = !ifCircleChoose;
 				ifHexagonChoose = false;
 				ifHeartChoose = false;
@@ -315,7 +316,7 @@ public class Room6 extends JPanel implements Room {
 				ifKeyChoose = false;
 				ifSicssorsChoose = false;
 			}
-			if (sicssors.ifChose(e) && ifSicssorsPicked && !ifScissorsDeleted) {
+			if (sicssors.ifChose(e) && ifSicssorsPicked && !ifScissorsDeleted && !ifWantToExit) {
 				ifSicssorsChoose = !ifSicssorsChoose;
 				ifHexagonChoose = false;
 				ifHeartChoose = false;
@@ -323,7 +324,7 @@ public class Room6 extends JPanel implements Room {
 				ifKeyChoose = false;
 				ifStarChoose = false;
 			}
-			if (key.ifChose(e) && ifKeyPicked && !ifKeyDeleted) {
+			if (key.ifChose(e) && ifKeyPicked && !ifKeyDeleted && !ifWantToExit) {
 				ifKeyChoose = !ifKeyChoose;
 				ifHexagonChoose = false;
 				ifHeartChoose = false;
@@ -362,47 +363,47 @@ public class Room6 extends JPanel implements Room {
 				key.setImg("/key2.png");
 			}
 			if (!ifCloseFrame) {
-				if (dices.ifClicked(e) && !ifTeddyClose && !ifBooksClose && !ifDrawerDownClose) {
+				if (dices.ifClicked(e) && !ifTeddyClose && !ifBooksClose && !ifDrawerDownClose && !ifWantToExit) {
 					message.setText("Dices or a coffee table?");
 				}
 				if (door.ifClicked(e) && !ifTeddyClose && !ifBooksClose && !ifDrawerDownClose && ifDoorLocked
-						&& !ifDoorOpen) {
+						&& !ifDoorOpen && !ifWantToExit) {
 					message.setText("It's locked.");
 					se.setFile(lockS);
-                    se.play();
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
+					se.play();
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 				if (ifDoorOpen) {
 					exitStatus = true;
 				}
-				if (cactus.ifClicked(e) && !ifTeddyClose && !ifBooksClose && !ifDrawerDownClose) {
+				if (cactus.ifClicked(e) && !ifTeddyClose && !ifBooksClose && !ifDrawerDownClose && !ifWantToExit) {
 					message.setText("I don't want to tuch it.");
 				}
-				if (lamp.ifClicked(e) && !ifTeddyClose && !ifBooksClose && !ifDrawerDownClose) {
+				if (lamp.ifClicked(e) && !ifTeddyClose && !ifBooksClose && !ifDrawerDownClose && !ifWantToExit) {
 					message.setText("Light is on.");
 				}
-				if (teddyBear.ifClicked(e) && !ifBook1Close && !ifBooksClose) {
+				if (teddyBear.ifClicked(e) && !ifBook1Close && !ifBooksClose && !ifWantToExit) {
 					ifTeddyClose = true;
 				}
 				// upper drawer
 				if (e.getX() >= 730 && e.getX() <= 885 && e.getY() >= 595 && e.getY() <= 650 && !ifTeddyClose
-						&& !ifBooksClose && !ifDrawerDownClose) {
+						&& !ifBooksClose && !ifDrawerDownClose && !ifWantToExit) {
 					message.setText("Nothing happens.");
 				}
 				if (ifTeddyClose) {
 					teddyBear.setStart(new MousePoint(500, 200));
 					teddyBear.setEnd(new MousePoint(1100, 800));
-					if (back1.ifClicked(e)) {
+					if (back1.ifClicked(e) && !ifWantToExit) {
 						teddyBear.setStart(new MousePoint(480, 150));
 						teddyBear.setEnd(new MousePoint(620, 300));
 						ifTeddyClose = false;
 					}
-					if (e.getX() >= 775 && e.getX() <= 820 && e.getY() >= 345 && e.getY() <= 400) {
+					if (e.getX() >= 775 && e.getX() <= 820 && e.getY() >= 345 && e.getY() <= 400 && !ifWantToExit) {
 						if (!ifStarPicked) {
 							inventory.addItem(star);
 						}
@@ -411,18 +412,18 @@ public class Room6 extends JPanel implements Room {
 					}
 				}
 				if (!ifPillowMoved) {
-					if (e.getX() >= 250 && e.getX() <= 355 && e.getY() >= 545 && e.getY() <= 645) {
+					if (e.getX() >= 250 && e.getX() <= 355 && e.getY() >= 545 && e.getY() <= 645 && !ifWantToExit) {
 						ifCloseSofa = true;
 						ifCloseFrame = true;
 					}
 				}
 				if (ifHoleMade) {
-					if (e.getX() >= 510 && e.getX() <= 590 && e.getY() >= 625 && e.getY() <= 660) {
+					if (e.getX() >= 510 && e.getX() <= 590 && e.getY() >= 625 && e.getY() <= 660 && !ifWantToExit) {
 						ifCloseHole = true;
 						ifCloseFrame = true;
 					}
 				}
-				if (pillow.ifClicked(e)) {
+				if (pillow.ifClicked(e) && !ifWantToExit) {
 					if (ifPillowMoved) {
 						pillow.setStart(new MousePoint(350, 555));
 						pillow.setEnd(new MousePoint(460, 650));
@@ -433,18 +434,19 @@ public class Room6 extends JPanel implements Room {
 						ifPillowMoved = true;
 					}
 				}
-				if (books.ifClicked(e) && !ifTeddyClose) {
+				if (books.ifClicked(e) && !ifTeddyClose && !ifWantToExit) {
 					ifBooksClose = true;
 				}
 				if (ifBooksClose) {
 					books.setStart(new MousePoint(600, 450));
 					books.setEnd(new MousePoint(1000, 850));
-					if (back3.ifClicked(e)) {
+					if (back3.ifClicked(e) && !ifWantToExit) {
 						books.setStart(new MousePoint(210, 165));
 						books.setEnd(new MousePoint(330, 290));
 						ifBooksClose = false;
 					}
-					if (e.getX() >= 730 && e.getX() <= 810 && e.getY() >= 465 && e.getY() <= 840 && !ifTeddyClose) {
+					if (e.getX() >= 730 && e.getX() <= 810 && e.getY() >= 465 && e.getY() <= 840 && !ifTeddyClose
+							&& !ifWantToExit) {
 						ifBook1Close = true;
 					}
 				}
@@ -452,7 +454,7 @@ public class Room6 extends JPanel implements Room {
 					books.setStart(new MousePoint(600, 100));
 					books.setEnd(new MousePoint(1450, 700));
 					books.setImg("/closeBook6.png");
-					if (back4.ifClicked(e)) {
+					if (back4.ifClicked(e) && !ifWantToExit) {
 						ifBooksClose = false;
 						ifBook1Close = false;
 						books.setStart(new MousePoint(210, 165));
@@ -460,15 +462,15 @@ public class Room6 extends JPanel implements Room {
 						books.setImg("/books3.png");
 					}
 				}
-				if (box.ifClicked(e) && !ifTeddyClose && !ifBooksClose && !ifDrawerDownClose) {
+				if (box.ifClicked(e) && !ifTeddyClose && !ifBooksClose && !ifDrawerDownClose && !ifWantToExit) {
 					ifBoxClose = true;
 					ifCloseFrame = true;
 				}
-				if (e.getX() >= 730 && e.getX() <= 885 && e.getY() >= 685 && e.getY() <= 745) {
+				if (e.getX() >= 730 && e.getX() <= 885 && e.getY() >= 685 && e.getY() <= 745 && !ifWantToExit) {
 					ifDrawerDownClose = true;
 				}
-				if (ifDrawerDownClose) {
-					if (back5.ifClicked(e)) {
+				if (ifDrawerDownClose && !ifWantToExit) {
+					if (back5.ifClicked(e) && !ifWantToExit) {
 						accumulated = "";
 						counterCode = 0;
 						message.setText(" ");
@@ -514,25 +516,25 @@ public class Room6 extends JPanel implements Room {
 						drawerDown.setImg("/drawer6down.png");
 						drawerDown.setStart(new MousePoint(10, 10));
 						drawerDown.setEnd(new MousePoint(1510, 1000));
-						if (heart.ifChose(e) && !ifHeartPicked) {
+						if (heart.ifChose(e) && !ifHeartPicked && !ifWantToExit) {
 							heart.setStart(new MousePoint(50, 50));
 							heart.setEnd(new MousePoint(150, 140));
 							inventory.addItem(heart);
 							ifHeartPicked = true;
 						}
-						if (sicssors.ifChose(e) && !ifSicssorsPicked) {
+						if (sicssors.ifChose(e) && !ifSicssorsPicked && !ifWantToExit) {
 							sicssors.setStart(new MousePoint(50, 50));
 							sicssors.setEnd(new MousePoint(165, 150));
 							inventory.addItem(sicssors);
 							ifSicssorsPicked = true;
 						}
 					}
-					if (back5.ifClicked(e)) {
+					if (back5.ifClicked(e) && !ifWantToExit) {
 						message.setText(" ");
 					}
 				}
 				// sofa - where we make hole
-				if (e.getX() >= 430 && e.getX() <= 625 && e.getY() >= 625 && e.getY() <= 670) {
+				if (e.getX() >= 430 && e.getX() <= 625 && e.getY() >= 625 && e.getY() <= 670 && !ifWantToExit) {
 					if (ifSicssorsChoose) {
 						sofa.setImg("/sofa6Hole.png");
 						ifHoleMade = true;
@@ -544,12 +546,12 @@ public class Room6 extends JPanel implements Room {
 			} else {
 				// a close frame of the sofa
 				if (ifCloseSofa) {
-					if (back2.ifClicked(e)) {
+					if (back2.ifClicked(e) && !ifWantToExit) {
 						ifCloseSofa = false;
 						ifCloseFrame = false;
 					}
 					// close sofa where we pick the hexagon
-					if (e.getX() >= 695 && e.getX() <= 770 && e.getY() >= 430 && e.getY() <= 495) {
+					if (e.getX() >= 695 && e.getX() <= 770 && e.getY() >= 430 && e.getY() <= 495 && !ifWantToExit) {
 						if (!ifHexagonPicked) {
 							inventory.addItem(hexagon);
 						}
@@ -559,12 +561,12 @@ public class Room6 extends JPanel implements Room {
 				}
 				// a close frame of the Hole
 				if (ifCloseHole) {
-					if (back7.ifClicked(e)) {
+					if (back7.ifClicked(e) && !ifWantToExit) {
 						ifCloseHole = false;
 						ifCloseFrame = false;
 					}
 					// close sofa where we pick the circle
-					if (e.getX() >= 680 && e.getX() <= 920 && e.getY() >= 480 && e.getY() <= 670) {
+					if (e.getX() >= 680 && e.getX() <= 920 && e.getY() >= 480 && e.getY() <= 670 && !ifWantToExit) {
 						if (!ifCirclePicked) {
 							inventory.addItem(circle);
 						}
@@ -573,19 +575,19 @@ public class Room6 extends JPanel implements Room {
 					}
 				}
 				// a close frame of the box
-				if (ifBoxOpen) {
+				if (ifBoxOpen && !ifWantToExit) {
 					if (key.ifChose(e) && !ifKeyPicked) {
 						key.setStart(new MousePoint(10, 10));
 						key.setEnd(new MousePoint(120, 95));
 						inventory.addItem(key);
 						ifKeyPicked = true;
 					}
-					if (back5.ifClicked(e)) {
+					if (back5.ifClicked(e) && !ifWantToExit) {
 						ifBoxClose = false;
 						ifCloseFrame = false;
 					}
 				}
-				if (ifBoxClose && !ifBoxOpen) {
+				if (ifBoxClose && !ifBoxOpen && !ifWantToExit) {
 					int flag = 0;
 					if (ifHeartChoose) {
 						if (e.getX() >= 875 && e.getX() <= 995 && e.getY() >= 425 && e.getY() <= 545) {
@@ -680,7 +682,7 @@ public class Room6 extends JPanel implements Room {
 						}
 					}
 					flag = 0;
-					if (back5.ifClicked(e)) {
+					if (back5.ifClicked(e) && !ifWantToExit) {
 						ifBoxClose = false;
 						ifCloseFrame = false;
 					}

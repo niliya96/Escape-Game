@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import MainMenu.GamePanel;
 import MainMenu.Menu;
-import Rooms.Room6.MyMouseListener;
 import Sprites.Clickable;
 import Sprites.ClickedObject;
 import Sprites.SoundEffect;
@@ -23,6 +22,10 @@ import Tools.MousePoint;
 import Tools.WallBegin;
 
 public class Room7 extends JPanel implements Room {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	ImageReader background;
 	GamePanel game;
 	JLabel message;
@@ -34,9 +37,9 @@ public class Room7 extends JPanel implements Room {
 	 * Sounds
 	 */
 	SoundEffect se = new SoundEffect();
-    String lockS = ".//res//lock_sound.wav";
-	String openDoor = ".//res//door_open_sound.wav";
-	String shalterS = ".//res//shalter_sound.wav";
+	String lockS = "/lock_sound.wav";
+	String openDoor = "/door_open_sound.wav";
+	String shalterS = "/shalter_sound.wav";
 	/**
 	 * /** Booleans
 	 */
@@ -150,7 +153,7 @@ public class Room7 extends JPanel implements Room {
 				door.setStart(new MousePoint(600, 245));
 				door.setEnd(new MousePoint(900, 777));
 				door.setImg("/door2Open.png");
-				if (door.ifClicked(e)) {
+				if (door.ifClicked(e) && !ifWantToExit) {
 					exitStatus = true;
 				}
 			}
@@ -163,7 +166,7 @@ public class Room7 extends JPanel implements Room {
 				}
 			}
 			if (!ifCloseFrame) {
-				if (switch_.ifClicked(e)) {
+				if (switch_.ifClicked(e) && !ifWantToExit) {
 					se.setFile(shalterS);
 					se.play();
 					try {
@@ -183,27 +186,27 @@ public class Room7 extends JPanel implements Room {
 						lamp.setImg("/lampOff7.png");
 					}
 				}
-				if (door.ifClicked(e)) {
+				if (door.ifClicked(e) && !ifWantToExit) {
 					if (!flagSound) {
-	                	se.setFile(openDoor);
-	                    se.play();
-	                    try {
-	                        Thread.sleep(1000);
-	                    } catch (InterruptedException e1) {
-	                        // TODO Auto-generated catch block
-	                        e1.printStackTrace();
-	                    }
-	                    flagSound = true;
-	            	}
+						se.setFile(openDoor);
+						se.play();
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						flagSound = true;
+					}
 					ifDoorOpen = true;
 					door.setStart(new MousePoint(600, 245));
 					door.setEnd(new MousePoint(900, 777));
 					door.setImg("/door2Open.png");
 				}
-				if (books.ifClicked(e)) {
+				if (books.ifClicked(e) && !ifWantToExit) {
 					message.setText("Which book is the most interesting?");
 				}
-				if (woodMan.ifClicked(e)) {
+				if (woodMan.ifClicked(e) && !ifWantToExit) {
 					ifWwoodmanRight = !ifWwoodmanRight;
 				}
 				if (ifWwoodmanRight) {
@@ -211,13 +214,13 @@ public class Room7 extends JPanel implements Room {
 				} else {
 					woodMan.setImg("/woodMan.png");
 				}
-				if (picture1.ifClicked(e)) {
+				if (picture1.ifClicked(e) && !ifWantToExit) {
 					message.setText("Unreachable.");
 				}
-				if (picture2.ifClicked(e)) {
+				if (picture2.ifClicked(e) && !ifWantToExit) {
 					message.setText("A clue?");
 				}
-				if (pillow.ifClicked(e)) {
+				if (pillow.ifClicked(e) && !ifWantToExit) {
 					ifPillowMoved = !ifPillowMoved;
 				}
 				if (ifPillowMoved) {
@@ -227,16 +230,16 @@ public class Room7 extends JPanel implements Room {
 					pillow.setStart(new MousePoint(225, 560));
 					pillow.setEnd(new MousePoint(325, 645));
 				}
-				if (e.getX() >= 1060 && e.getX() <= 1300 && e.getY() >= 605 && e.getY() <= 660) {
+				if (e.getX() >= 1060 && e.getX() <= 1300 && e.getY() >= 605 && e.getY() <= 660 && !ifWantToExit) {
 					message.setText("It's locked, Maybe a key will help.");
 					se.setFile(lockS);
-                    se.play();
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
+					se.play();
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 			repaint();

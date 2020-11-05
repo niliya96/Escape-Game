@@ -11,6 +11,9 @@ public class ImageReader {
     private BufferedImage img;
     public ImageReader(String path) {
         try {
+            if (getClass().getResourceAsStream(path) == null) {
+                System.out.println("aaa");
+            }
             this.img = ImageIO.read(getClass().getResourceAsStream(path));
         } catch (IOException e) {
             e.printStackTrace();

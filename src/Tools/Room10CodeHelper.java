@@ -2,10 +2,8 @@ package Tools;
 import Sprites.ClickedObject;
 
 public class Room10CodeHelper {
-    private ClickedObject c;
     private int number;
     public Room10CodeHelper(ClickedObject c, int number) {
-        this.c = c;
         this.number = number;
     }
     public int getNewNumber() {

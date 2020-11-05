@@ -2,10 +2,8 @@ package Tools;
 import Sprites.Clickable;
 
 public class Room9CodeHelper2 {
-    private Clickable c;
     private int num;
     public Room9CodeHelper2(Clickable button1,int num) {
-        this.c = button1;
         this.num = num;
     }
     public int getNewDirection() {

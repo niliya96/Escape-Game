@@ -10,16 +10,17 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import MainMenu.GamePanel;
 import MainMenu.Menu;
-import Rooms.Room8.MyMouseListener;
 
 public class Room2 extends JPanel implements Room {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	ImageReader background;
 	GamePanel game;
 	JLabel message;
@@ -31,9 +32,9 @@ public class Room2 extends JPanel implements Room {
 	 * Sounds
 	 */
 	SoundEffect se = new SoundEffect();
-	String lockS = ".//res//lock_sound.wav";
-	String openDoor = ".//res//door_open_sound.wav";
-	String shalterS = ".//res//shalter_sound.wav";
+	String lockS = "/lock_sound.wav";
+	String openDoor = "/door_open_sound.wav";
+	String shalterS = "/shalter_sound.wav";
 	/**
 	 * /** Booleans
 	 */
@@ -175,7 +176,7 @@ public class Room2 extends JPanel implements Room {
 				}
 			}
 			if (ifDoorLocked) {
-				if (ifSecondKeyPicked && ifSecondKeyChoose && door.ifClicked(e) && !ifCloseFrame) {
+				if (ifSecondKeyPicked && ifSecondKeyChoose && door.ifClicked(e) && !ifCloseFrame && !ifWantToExit) {
 					ifDoorLocked = false;
 					se.setFile(openDoor);
 					se.play();
@@ -216,7 +217,7 @@ public class Room2 extends JPanel implements Room {
 			/**
 			 * inventory items
 			 */
-			if (keyCupboard.ifChose(e) && ifFirstKeyPicked) {
+			if (keyCupboard.ifChose(e) && ifFirstKeyPicked && !ifWantToExit) {
 				ifFirstKeyChoose = !ifFirstKeyChoose;
 				if (ifFirstKeyChoose) {
 					keyCupboard.setImg("/key2Choose.png");
@@ -224,7 +225,7 @@ public class Room2 extends JPanel implements Room {
 					keyCupboard.setImg("/key2.png");
 				}
 			}
-			if (keyDoor.ifChose(e) && ifSecondKeyPicked) {
+			if (keyDoor.ifChose(e) && ifSecondKeyPicked && !ifWantToExit) {
 				ifSecondKeyChoose = !ifSecondKeyChoose;
 				if (ifSecondKeyChoose) {
 					keyDoor.setImg("/key1Choose.png");
@@ -235,7 +236,7 @@ public class Room2 extends JPanel implements Room {
 			/**
 			 * other room
 			 */
-			if (ifUperDrawerOpen) {
+			if (ifUperDrawerOpen && !ifWantToExit) {
 				if (back2.ifClicked(e)) {
 					ifCloseFrame = false;
 					ifUperDrawerOpen = false;
@@ -249,7 +250,7 @@ public class Room2 extends JPanel implements Room {
 				}
 			}
 			if (!ifCloseFrame) {
-				if (pillow.ifClicked(e)) {
+				if (pillow.ifClicked(e) && !ifWantToExit) {
 					ifPillowMoved = !ifPillowMoved;
 				}
 				if (ifPillowMoved) {
@@ -259,7 +260,7 @@ public class Room2 extends JPanel implements Room {
 					pillow.setStart(new MousePoint(150, 555));
 					pillow.setEnd(new MousePoint(260, 650));
 				}
-				if (door.ifClicked(e) && !ifDoorOpen) {
+				if (door.ifClicked(e) && !ifDoorOpen && !ifWantToExit) {
 					if (ifDoorLocked && !ifBoxClose) {
 						message.setText("It's locked.");
 						se.setFile(lockS);
@@ -272,21 +273,21 @@ public class Room2 extends JPanel implements Room {
 						}
 					}
 				}
-				if (door.ifClicked(e) && ifDoorOpen) {
+				if (door.ifClicked(e) && ifDoorOpen && !ifWantToExit) {
 					exitStatus = true;
 				}
-				if (picture.ifClicked(e)) {
+				if (picture.ifClicked(e) && !ifWantToExit) {
 					message.setText("Just a picture on the wall.");
 				}
 				if (armchair.ifClicked(e) && !pillow.ifClicked(e)) {
 					message.setText("I d'ont have time to sit now.");
 				}
-				if (e.getX() >= 1105 && e.getX() <= 1260 && e.getY() >= 595 && e.getY() <= 650) {
+				if (e.getX() >= 1105 && e.getX() <= 1260 && e.getY() >= 595 && e.getY() <= 650 && !ifWantToExit) {
 					if (ifFirstKeyChoose && !unlockDrawer) {
 						inventory.deleteItem(keyCupboard);
 						unlockDrawer = true;
 					}
-					if (!ifFirstKeyChoose && !unlockDrawer && !ifBoxClose) {
+					if (!ifFirstKeyChoose && !unlockDrawer && !ifBoxClose && !ifWantToExit) {
 						message.setText("It's locked.");
 						se.setFile(lockS);
 						se.play();
@@ -303,13 +304,14 @@ public class Room2 extends JPanel implements Room {
 					}
 				}
 				// down drawer
-				if (e.getX() >= 1105 && e.getX() <= 1260 && e.getY() >= 685 && e.getY() <= 740 && !ifBoxClose) {
+				if (e.getX() >= 1105 && e.getX() <= 1260 && e.getY() >= 685 && e.getY() <= 740 && !ifBoxClose
+						&& !ifWantToExit) {
 					message.setText("Nothing happens.");
 				}
 				if (box.ifClicked(e) && !ifBoxClose) {
 					ifBoxClose = true;
 				}
-				if (ifBoxClose) {
+				if (ifBoxClose && !ifWantToExit) {
 					box.setImg("/boxClose2.png");
 					box.setStart(new MousePoint(300, 300));
 					box.setEnd(new MousePoint(1200, 800));
@@ -468,7 +470,7 @@ public class Room2 extends JPanel implements Room {
 						box.setEnd(new MousePoint(1265, 550));
 					}
 				}
-				if (switch_.ifClicked(e) && !ifBoxClose) {
+				if (switch_.ifClicked(e) && !ifBoxClose && !ifWantToExit) {
 					se.setFile(shalterS);
 					se.play();
 					try {
