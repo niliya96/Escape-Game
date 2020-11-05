@@ -24,6 +24,8 @@ In the menu panel you can:
 * OOP
 * javax.swing package
 * java.awt package
+* java.net
+* javax.sound
 
 ## Built with
 * Java
