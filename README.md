@@ -30,5 +30,6 @@ In the menu panel you can:
 ## Built with
 * Java
 * Eclipse IDE
+* Graphics - with Paint3D
 
 ### enjoy!
