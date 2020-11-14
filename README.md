@@ -32,4 +32,7 @@ In the menu panel you can:
 * Eclipse IDE
 * Graphics - with Paint3D
 
+## requirements
+* required JRE to run
+
 ### enjoy!
