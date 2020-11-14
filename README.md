@@ -33,7 +33,7 @@ In the menu panel you can:
 * Graphics - my draws, with Paint3D (Fonts by Paint3D)
 * my audios
 
-## requirements
+## Requirements
 * required JRE to run
 
 ### enjoy!
