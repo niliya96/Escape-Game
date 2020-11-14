@@ -549,7 +549,7 @@ public class Room8 extends JPanel implements Room {
 				if (ifChairMoved) {
 					if (lamp.ifClicked(e) && !ifDrawer1Close && !ifDrawer2Close && !ifDrawer3Close && !ifWantToExit) {
 						if (ifLampOn) {
-							message.setText("Too warm, I can't to anything");
+							message.setText("Too warm, I can't do anything");
 						} else {
 							if (!ifBulbPicked && !ifWantToExit) {
 								inventory.addItem(bulb);
