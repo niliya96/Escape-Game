@@ -556,7 +556,7 @@ public class Room10 extends JPanel implements Room {
 								&& ifBinocularsChoose && ifBinocularsPicked && !ifWantToExit) {
 							outside.setImg("/outsideClose.png");
 						} else {
-							message.setText("Too far from me.");
+							message.setText("Too far.");
 							outside.setImg("/outside.png");
 						}
 					}
@@ -931,7 +931,7 @@ public class Room10 extends JPanel implements Room {
 						}
 						if (ifDark) {
 							secreteRoom.setImg("/secreteDark.jpg");
-							message.setText("It's to dark. I can't see anything.");
+							message.setText("It's too dark. I can't see anything.");
 						} else {
 							secreteRoom.setImg("/secreteNotDark.jpg");
 						}
