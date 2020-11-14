@@ -31,6 +31,7 @@ In the menu panel you can:
 * Java
 * Eclipse IDE
 * Graphics - my draws, with Paint3D (Fonts by Paint3D)
+* my audios
 
 ## requirements
 * required JRE to run
