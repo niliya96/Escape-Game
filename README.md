@@ -30,7 +30,7 @@ In the menu panel you can:
 ## Built with
 * Java
 * Eclipse IDE
-* Graphics - with Paint3D
+* Graphics - my draws, with Paint3D (Fonts by Paint3D)
 
 ## requirements
 * required JRE to run
